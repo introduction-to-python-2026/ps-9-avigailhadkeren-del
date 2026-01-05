@@ -1,2 +1,4 @@
-path: "path_to_model.joblib
-features: ['feature_A', 'feature_B']
+import joblib
+
+joblib.dump(model, "knn_model.joblib")
+
