@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 import joblib
-
+joblib.dump(model, "knn_model.joblib")
 df = pd.read_csv("parkinsons.csv")
 
 features = ["MDVP:Fo(Hz)", "MDVP:Fhi(Hz)", "MDVP:Jitter(%)",
