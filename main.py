@@ -1,38 +1,25 @@
 import pandas as pd
+df = pd.read_csv("/content/parkinsons.csv")
+df = df.dropna()
+
+print(df.columns.to_list())
+
+selected_features = ['RPDE', 'PPE']
+X = df[selected_features]
+y = df['status']
+
 from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+X = scaler.fit_transform(X)
+
 from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsClassifier
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+from sklearn.tree import DecisionTreeClassifier
+DTC = DecisionTreeClassifier(max_depth = 3)
+DTC.fit(X_train, y_train)
+
 from sklearn.metrics import accuracy_score
-import joblib
-
-df = pd.read_csv("parkinsons.csv")
-
-features = ["MDVP:Fo(Hz)", "MDVP:Fhi(Hz)", "MDVP:Jitter(%)",
-            "MDVP:Shimmer", "HNR", "RPDE", "DFA"]
-
-X = df[features]
-y = df["status"]
-
-scaler = MinMaxScaler(feature_range=(0, 1))
-X_scaled = scaler.fit_transform(X)
-
-X_train, X_val, y_train, y_val = train_test_split(
-    X_scaled, y, test_size=0.2, random_state=42
-)
-
-model = KNeighborsClassifier(n_neighbors=5)
-model.fit(X_train, y_train)
-
-y_pred = model.predict(X_val)
-accuracy = accuracy_score(y_val, y_pred)
-print("דיוק המודל:", accuracy)
-
-joblib.dump(model, "knn_model.joblib")
-joblib.dump(scaler, "scaler.joblib")
-
-
-y_pred = model.predict(X_val)
-accuracy = accuracy_score(y_val, y_pred)
-print("דיוק המודל:", accuracy)
-
-joblib.dump(model, "knn_model.joblib")
+y_pred = DTC.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print(accuracy)
