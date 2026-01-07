@@ -1,4 +1,4 @@
 selected_features: ["MDVP:Fo(Hz)", "MDVP:Fhi(Hz)", "MDVP:Jitter(%)",
                     "MDVP:Shimmer", "HNR", "RPDE", "DFA"]
-path: "knn_model.joblib" 
+path: "knn_model.joblib"  
 
