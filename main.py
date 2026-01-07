@@ -4,11 +4,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 import joblib
-joblib.dump(model, "knn_model.joblib")
+
 df = pd.read_csv("parkinsons.csv")
 
 features = ["MDVP:Fo(Hz)", "MDVP:Fhi(Hz)", "MDVP:Jitter(%)",
             "MDVP:Shimmer", "HNR", "RPDE", "DFA"]
+
 X = df[features]
 y = df["status"]
 
@@ -21,6 +22,14 @@ X_train, X_val, y_train, y_val = train_test_split(
 
 model = KNeighborsClassifier(n_neighbors=5)
 model.fit(X_train, y_train)
+
+y_pred = model.predict(X_val)
+accuracy = accuracy_score(y_val, y_pred)
+print("דיוק המודל:", accuracy)
+
+joblib.dump(model, "knn_model.joblib")
+joblib.dump(scaler, "scaler.joblib")
+
 
 y_pred = model.predict(X_val)
 accuracy = accuracy_score(y_val, y_pred)
